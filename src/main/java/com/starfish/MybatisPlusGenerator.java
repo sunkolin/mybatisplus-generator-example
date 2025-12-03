@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
-import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.fill.Property;
 
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class MybatisPlusGenerator {
                             .disableOpenDir() // 生成后不打开文件夹（可选，true 为打开）
                             .dateType(DateType.ONLY_DATE) // 日期类型（java.time 包，JDK8+）
 //                            .dateType(DateType.TIME_PACK) // 日期类型（java.time 包，JDK8+）
-                            .commentDate("yyyy-MM-dd"); // 注释日期格式
+                            .commentDate("yyyy-MM-dd");// 注释日期格式
                 })
                 // 4. 包配置（指定生成的类放在哪个包下）
                 .packageConfig(builder -> {
@@ -86,27 +86,28 @@ public class MybatisPlusGenerator {
                     builder.addInclude(TABLE_NAMES) // 要生成的表名
                             .addTablePrefix(TABLE_PREFIX) // 去掉表前缀
                             .entityBuilder() // Entity 生成策略
-                            .formatFileName("%sEntity")
-                            .enableLombok() // 启用 Lombok（需引入 Lombok 依赖）
+                            .enableFileOverride()
+                            .formatFileName("%sEntity").enableLombok() // 启用 Lombok（需引入 Lombok 依赖）
                             .enableChainModel() // 启用链式调用（如 user.setId(1).setName("xxx")）
                             .enableTableFieldAnnotation() // 为字段添加 @TableField 注解
                             .addTableFills( // 自动填充配置（如创建时间、更新时间）
-                                    new Property("createTime", FieldFill.INSERT),
-                                    new Property("updateTime", FieldFill.INSERT_UPDATE),
-                                    new Property("modifyTime", FieldFill.INSERT_UPDATE)
-                            ).mapperBuilder() // Mapper 生成策略
+                                    new Property("createTime", FieldFill.INSERT), new Property("updateTime", FieldFill.INSERT_UPDATE), new Property("modifyTime", FieldFill.INSERT_UPDATE)).mapperBuilder() // Mapper 生成策略
                             .superClass(BaseMapper.class) // 继承 BaseMapper（MP 自带）
                             .enableBaseResultMap() // 启用 BaseResultMap（XML 中生成结果映射）
                             .enableBaseColumnList() // 启用 BaseColumnList（XML 中生成查询字段列表）
+                            .mapperBuilder()
+                            .enableFileOverride()
                             .controllerBuilder() // Controller 生成策略
+                            .enableFileOverride()
                             .enableRestStyle() // 启用 REST 风格（如 @GetMapping、@PostMapping）
                             .enableHyphenStyle() // 启用连字符路由（如 /sys-user/1 -> 对应 sysUser/1）
                             .serviceBuilder() // Service 生成策略
+                            .enableFileOverride()
                             .formatServiceFileName("%sService") // Service 接口名格式（默认 %sService）
                             .formatServiceImplFileName("%sServiceImpl"); // Service 实现类名格式（默认 %sServiceImpl）
                 })
-                // 6. 模板引擎配置（默认 Velocity）
-                .templateEngine(new VelocityTemplateEngine())
+                // 6. 模板引擎配置
+                .templateEngine(new FreemarkerTemplateEngine())
                 // 执行生成
                 .execute();
     }
