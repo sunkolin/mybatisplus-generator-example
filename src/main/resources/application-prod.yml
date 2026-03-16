@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mybatis-plus-generator-example
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/starfish?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: 123456789
+    driverClassName: com.mysql.cj.jdbc.Driver
