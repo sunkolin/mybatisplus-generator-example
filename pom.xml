@@ -8,7 +8,7 @@
         <version>4.0.0</version>
     </parent>
     <groupId>com.github.sunkolin</groupId>
-    <artifactId>mybatis-plus-generator-example</artifactId>
+    <artifactId>mybatisplus-generator-example</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>mybatis-plus-generator-example</name>
